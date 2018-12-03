@@ -28,6 +28,13 @@ namespace FinanceWebScraper1._1.Controllers
             return View(await _context.Stock.ToListAsync());
         }
 
+        // GET: Stocks
+        [Authorize]
+        public async Task<IActionResult> History()
+        {
+            return View(await _context.Stock.ToListAsync());
+        }
+
         // GET: Stocks/Details/5
         [Authorize]
         public async Task<IActionResult> Details(int? id)

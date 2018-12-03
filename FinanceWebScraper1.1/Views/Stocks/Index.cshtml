@@ -4,73 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
+<h2>
     <a asp-action="Create">Get New Snapshot</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Symbol)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Change)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PercentChange)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Currency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AverageVolume)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MarketCap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SnapshotTime)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Symbol)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Change)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PercentChange)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Currency)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AverageVolume)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MarketCap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SnapshotTime)
-            </td>
-            <td>               |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <br />
+    <a asp-action="History">Show History</a>
+</h2>

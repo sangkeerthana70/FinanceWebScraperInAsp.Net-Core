@@ -10,8 +10,8 @@ namespace FinanceWebScraper.Services
 {
     public class Scraper
     {
-    private string userid;
-    private string password;
+        private string userid;
+        private string password;
 
     public Scraper(string userid, string password)
     {

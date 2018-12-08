@@ -73,9 +73,10 @@ namespace FinanceWebScraper1._1.Controllers
             {
                 Scraper s = new Scraper("asangeethu@yahoo.com", "@nuk1978");
                 var snapShot = s.Scrape();
+                var snapShotTime = DateTime.Now;
                 foreach ( var item in snapShot)
                 {
-                    item.SnapshotTime = DateTime.Now;
+                    item.SnapshotTime = snapShotTime;
                     _context.Add(item);//adds the object to the context
                     await _context.SaveChangesAsync();//saves to the database
 

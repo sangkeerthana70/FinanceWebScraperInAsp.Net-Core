@@ -11,7 +11,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SnapshotTime)
+                @Html.DisplayNameFor(model => model.SnapshotTime)          
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Symbol)
@@ -46,6 +46,8 @@
                 @{ if (item.SnapshotTime != prevStock.SnapshotTime)
                     {
                         @Html.DisplayFor(modelItem => item.SnapshotTime)
+                        <br />
+                        <a asp-action="Delete">Delete SnapShots</a>
                     }
                 }
             </td>

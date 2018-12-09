@@ -16,6 +16,8 @@ namespace FinanceWebScraper1._1.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        public object SnapShotTime { get; private set; }
+
         public StocksController(ApplicationDbContext context)
         {
             _context = context;

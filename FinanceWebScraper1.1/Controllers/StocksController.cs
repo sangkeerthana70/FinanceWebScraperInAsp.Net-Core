@@ -9,6 +9,7 @@ using FinanceWebScraper.Models;
 using FinanceWebScraper1._1.Data;
 using Microsoft.AspNetCore.Authorization;
 using FinanceWebScraper.Services;
+using System.Text.Encodings.Web;
 
 namespace FinanceWebScraper1._1.Controllers
 {
@@ -25,7 +26,7 @@ namespace FinanceWebScraper1._1.Controllers
 
         // GET: Stocks
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime SnapshotTime)
         {
             return View(await _context.Stock.ToListAsync());
         }
@@ -69,10 +70,10 @@ namespace FinanceWebScraper1._1.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Symbol,Change,PercentChange,Currency,AverageVolume,MarketCap,Price,SnapshotTime")] Stock stock)
+        public async Task<IActionResult> Create(int dummy)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 Scraper s = new Scraper("asangeethu@yahoo.com", "@nuk1978");
                 var snapShot = s.Scrape();
                 var snapShotTime = DateTime.Now;
@@ -85,8 +86,8 @@ namespace FinanceWebScraper1._1.Controllers
                 }
                 
                 return RedirectToAction(nameof(Index));
-            }
-            return View();
+            //}
+            //return View();
         }
 
         // GET: Stocks/Edit/5
@@ -144,20 +145,29 @@ namespace FinanceWebScraper1._1.Controllers
 
         // GET: Stocks/Delete/5
         [Authorize]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(DateTime SnapshotTime)
+       //public DateTime Delete(DateTime SnapshotTime)
         {
-            if (id == null)
+            //return SnapshotTime;
+            if (SnapshotTime == null)
             {
                 return NotFound();
             }
 
-            var stock = await _context.Stock
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (stock == null)
-            {
-                return NotFound();
-            }
+            var query = from m in _context.Stock
+            where m.SnapshotTime.Date == SnapshotTime.Date &&
+                  m.SnapshotTime.Hour == SnapshotTime.Hour &&
+                  m.SnapshotTime.Minute == SnapshotTime.Minute &&
+                  m.SnapshotTime.Second == SnapshotTime.Second
+            select m;
+            var stock = await query.FirstOrDefaultAsync();
 
+            //var stock = await _context.Stock
+              //  .FirstOrDefaultAsync(m => m.SnapshotTime == SnapshotTime);
+            //if (stock == null)
+            //{                
+            //    return NotFound();
+            //}
             return View(stock);
         }
 
@@ -165,11 +175,22 @@ namespace FinanceWebScraper1._1.Controllers
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(DateTime SnapshotTime)
+        //public DateTime DeleteConfirmed(DateTime SnapshotTime)
         {
-            var stock = await _context.Stock.FindAsync(id);
-            _context.Stock.Remove(stock);
-            await _context.SaveChangesAsync();
+            var query = from m in _context.Stock
+                        where m.SnapshotTime.Date == SnapshotTime.Date &&
+                              m.SnapshotTime.Hour == SnapshotTime.Hour &&
+                              m.SnapshotTime.Minute == SnapshotTime.Minute &&
+                              m.SnapshotTime.Second == SnapshotTime.Second
+                        select m;
+            var stocks = await query.ToListAsync();
+            foreach (Stock stock in stocks)
+            {
+                _context.Stock.Remove(stock);
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
